@@ -18,11 +18,11 @@ func RootCommand() *cobra.Command {
 		Short: "",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			client := NewPokemonApiClient()
-
 			if len(args) < 1 {
 				cmd.Println("Please enter a pokemon name")
 			}
+
+			client := NewPokemonApiClient()
 
 			if args[0] == "pokemon" {
 				client.FindPokemon(args[0])
@@ -35,11 +35,7 @@ func RootCommand() *cobra.Command {
 		Short: "",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			client := NewPokemonApiClient()
 
-			if args[0] == "pokemon" {
-				client.FindPokemon(args[0])
-			}
 		},
 	}
 
@@ -48,11 +44,7 @@ func RootCommand() *cobra.Command {
 		Short: "",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {
-			client := NewPokemonApiClient()
 
-			if args[0] == "pokemon" {
-				client.FindPokemon(args[0])
-			}
 		},
 	}
 
