@@ -12,7 +12,13 @@ func RootCommand() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			client := NewPokemonApiClient()
 
-			client.FindPokemon("bulbasaur")
+			pokemon, err := client.FindPokemon("bulbasaur")
+			if err != nil {
+				cmd.Println("Something went wrong during pokemon retrieval")
+
+				return
+			}
+			cmd.Println(pokemon)
 
 			cmd.Println("Welcome to FlyPoke!!")
 		},

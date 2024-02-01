@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"net/http"
 )
 
@@ -17,28 +17,20 @@ func NewPokemonApiClient() *PokemonApiClient {
 	return p
 }
 
-func (r *PokemonApiClient) FindPokemon(name string) string {
+func (r *PokemonApiClient) FindPokemon(name string) (p Pokemon, err error) {
 	resp, err := r.Client.Get("https://pokeapi.co/api/v2/pokemon/" + name)
 
 	if err != nil {
-		return "we're doomed"
+		return p, errors.New("Failed to receive HTTP response.")
 	}
 
 	defer resp.Body.Close()
-	// body, err := ioutil.ReadAll(resp.Body)
+
+	err = json.NewDecoder(resp.Body).Decode(&p)
 
 	if err != nil {
-		return "failed to read a body"
+		return p, errors.New("Failed to parse JSON body")
 	}
 
-	var pokemon Pokemon
-	err = json.NewDecoder(resp.Body).Decode(&pokemon)
-
-	if err != nil {
-		return "failed to decode json"
-	}
-
-	fmt.Println(pokemon)
-
-	return "hehe"
+	return p, nil
 }
